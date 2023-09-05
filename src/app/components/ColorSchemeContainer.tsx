@@ -2,18 +2,19 @@
 import React from 'react'
 import { styled } from 'styled-components'
 
-const Button = styled.button<{ $hexColor: any; }>`
-  border-radius: 3px;
+const ColorButton = styled.button<{ $hexColor: any; }>`
+  border-radius: 15px;
   display: inline-block;
   margin: 0.5rem 1rem;
   padding: 0.5rem 0;
   transition: all 200ms ease-in-out;
-  width: 200px;
+  width: 11rem;
+  color: white;
   background-color: ${props => props.$hexColor};
 `
 
 const getData = async () => {
-  const res = await fetch('https://www.thecolorapi.com/scheme?hex=24B1E0')
+  const res = await fetch('https://www.thecolorapi.com/scheme?hex=24B1E0&count=10')
  
   if (res.status !== 200) {
     throw new Error('Failed to fetch colors')
@@ -28,11 +29,12 @@ export const ColorSchemeContainer: React.FC = async () => {
   console.log("DATA IN HOME", data.colors)
 
   return (
-    <>{data.colors.map((color: any) => {
+    <>
+    {data.colors.map((color: any, i: number) => {
       return (
-        <>
-        <Button $hexColor={color.hex.value}>asdfasdf</Button>
-        </>
+        <div key={i}>
+        <ColorButton $hexColor={color.hex.value} >{color.name.value}</ColorButton>
+        </div>
       )
     })}</>
   )
