@@ -1,41 +1,40 @@
-"use client"
-import React from 'react'
-import { styled } from 'styled-components'
+"use client";
+import React from "react";
+import { ColorPicker } from "./ColorPicker";
+import { ColorScheme } from "./ColorScheme";
 
-const ColorButton = styled.button<{ $hexColor: any; }>`
-  border-radius: 15px;
-  display: inline-block;
-  margin: 0.5rem 1rem;
-  padding: 0.5rem 0;
-  transition: all 200ms ease-in-out;
-  width: 11rem;
-  color: white;
-  background-color: ${props => props.$hexColor};
-`
+export const ColorSchemeContainer: React.FC = () => {
+  const [colorInput, setColorInput] = React.useState<string>("");
+  const [colorData, setColorData] = React.useState<any>([]);
 
-const getData = async () => {
-  const res = await fetch('https://www.thecolorapi.com/scheme?hex=24B1E0&count=10')
- 
-  if (res.status !== 200) {
-    throw new Error('Failed to fetch colors')
-  }
-  const data = res.json()
- 
-  return data
-}
+  React.useEffect(() => {
+    const getData = async () => {
+      const res = await fetch(
+        `https://www.thecolorapi.com/scheme?hex=${colorInput.substring(1)}&count=10`
+      );
 
-export const ColorSchemeContainer: React.FC = async () => {
-  const data = await getData()
-  console.log("DATA IN HOME", data.colors)
+      if (res.status !== 200) {
+        throw new Error("Failed to fetch colors");
+      }
+      const data = await res.json();
+      //  return data
+      setColorData(data);
+    };
+
+    if (colorInput) {
+      getData();
+    }
+  }, [colorInput]);
 
   return (
     <>
-    {data.colors.map((color: any, i: number) => {
-      return (
-        <div key={i}>
-        <ColorButton $hexColor={color.hex.value} >{color.name.value}</ColorButton>
-        </div>
-      )
-    })}</>
-  )
-}
+      <p className="font-comfortaa">Choose a color</p>
+      <ColorPicker onChange={setColorInput} colorInput={colorInput} />
+      {colorData.colors ? (
+        <ColorScheme colors={colorData.colors} />
+      ) : (
+        <>Loading</>
+      )}
+    </>
+  );
+};
