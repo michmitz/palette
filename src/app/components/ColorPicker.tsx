@@ -2,6 +2,7 @@ import React from 'react'
 import { styled } from 'styled-components'
 
 interface ColorPickerProps {
+  readonly colorInput?: string
   readonly onChange: (v: string) => void
 }
 
@@ -10,13 +11,12 @@ const ColorPickerInput = styled.input`
   -moz-appearance: none;
   -webkit-appearance: none;
   background: none;
-  border: 0;
   cursor: pointer;
   height: 6em;
   padding: 0;
   width: 6em;
   transition: all 200ms ease-in-out;
-  box-shadow: 2px 2px 2px gray;
+  box-shadow: 2px 2px 10px gray;
   border-radius: 50%;
 
   &::-webkit-color-swatch-wrapper {
@@ -38,10 +38,10 @@ const ColorPickerInput = styled.input`
   }
 `;
 
-export const ColorPicker: React.FC<ColorPickerProps> = ({ onChange }) => {
+export const ColorPicker: React.FC<ColorPickerProps> = ({ colorInput, onChange }) => {
   return (
-    <div className="">
-      <ColorPickerInput type="color" onChange={e => onChange(e.target.value)} value="#FFFFFF" /> 
+    <div>
+      <ColorPickerInput type="color" onChange={e => onChange(e.target.value)} value={`${colorInput || '#FFFFFF'}`} /> 
     </div>
   )
 }

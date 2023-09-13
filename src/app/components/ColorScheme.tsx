@@ -14,6 +14,7 @@ const ColorButton = styled.button<{ $rgbColor: any }>`
   transition: all 200ms ease-in-out;
   width: 12rem;
   color: white;
+  font-family: Comfortaa;
   background: linear-gradient(
     90deg,
     ${(props) => props.$rgbColor} 0%,

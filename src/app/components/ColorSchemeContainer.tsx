@@ -28,8 +28,8 @@ export const ColorSchemeContainer: React.FC = () => {
 
   return (
     <>
-      Choose a color
-      <ColorPicker onChange={setColorInput} />
+      <p className="font-comfortaa">Choose a color</p>
+      <ColorPicker onChange={setColorInput} colorInput={colorInput} />
       {colorData.colors ? (
         <ColorScheme colors={colorData.colors} />
       ) : (
