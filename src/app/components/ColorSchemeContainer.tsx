@@ -28,7 +28,7 @@ export const ColorSchemeContainer: React.FC = () => {
 
   React.useEffect(() => {
     if (colorInput) {
-      getData(colorInput.substring(1), 10, "complement", (v) =>
+      getData(colorInput.substring(1), 5, "analogic-complement", (v) =>
         setColorData(v)
       );
     }
@@ -39,10 +39,10 @@ export const ColorSchemeContainer: React.FC = () => {
   React.useEffect(() => {
     if (colorData !== null) {
       colorData.colors.forEach((color: any) => {
-        getData(color.hex.clean, 6, "triad", (v) =>
+        getData(color.hex.clean, 4, "triad", (v) =>
           setGradientData((prevData: any) => [
             ...prevData,
-            { baseColor: color, color2: v.colors[2], color3: v.colors[5] },
+            { baseColor: color, color2: v.colors[1], color3: v.colors[3] },
           ])
         );
       });

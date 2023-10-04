@@ -10,23 +10,22 @@ const ColorButton = styled.button<{ $rgbColor: any; $rgbGradient1: any; $rgbGrad
   border-radius: 15px;
   display: inline-block;
   transition: all 200ms ease-in-out;
-  width: 12rem;
-  height: 10rem;
+  width: 14rem;
+  height: 8rem;
   color: white;
   border: 2px solid white;
   font-family: Comfortaa;
   box-shadow: 5px 5px 10px rgba(31, 38, 135, 0.37);
   cursor: pointer;
   background: linear-gradient(
-    40deg,
+    60deg,
     ${(props) => props.$rgbColor},
-    ${(props) => props.$rgbGradient1} 80%,
-    ${(props) => props.$rgbGradient2} 100%
+    ${(props) => props.$rgbGradient1},
+    ${(props) => props.$rgbGradient2}
   );
 `;
 
 export const ColorScheme: React.FC<ColorSchemeProps> = ({ colors }) => {
-  console.log("Colors in color scheme", colors);
   return (
     <>
       {colors ? (
@@ -41,7 +40,7 @@ export const ColorScheme: React.FC<ColorSchemeProps> = ({ colors }) => {
 
           return (
             <div key={i} className="m-3">
-              <ColorButton $rgbColor={color1} $rgbGradient1={color2} $rgbGradient2={color3}><div className="d-flex">{color.baseColor.name.value}</div></ColorButton>
+              <ColorButton $rgbColor={color1} $rgbGradient1={color2} $rgbGradient2={color3}></ColorButton>
             </div>
           );
         })
