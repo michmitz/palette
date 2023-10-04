@@ -1,4 +1,4 @@
-"use client";
+
 import React from "react";
 import { styled } from "styled-components";
 
@@ -6,34 +6,41 @@ interface ColorSchemeProps {
   readonly colors?: any;
 }
 
-const ColorButton = styled.button<{ $rgbColor: any }>`
+const ColorButton = styled.button<{ $rgbColor: any; $rgbGradient1: any; $rgbGradient2: any }>`
   border-radius: 15px;
   display: inline-block;
-  margin: 0.5rem 1rem;
-  padding: 1rem 0;
   transition: all 200ms ease-in-out;
-  width: 12rem;
+  width: 14rem;
+  height: 8rem;
   color: white;
+  border: 2px solid white;
   font-family: Comfortaa;
+  box-shadow: 5px 5px 10px rgba(31, 38, 135, 0.37);
+  cursor: pointer;
   background: linear-gradient(
-    90deg,
-    ${(props) => props.$rgbColor} 0%,
-    ${(props) => props.$rgbColor} 35%,
-    ${(props) => props.$rgbColor} 100%
+    60deg,
+    ${(props) => props.$rgbColor},
+    ${(props) => props.$rgbGradient1},
+    ${(props) => props.$rgbGradient2}
   );
 `;
 
 export const ColorScheme: React.FC<ColorSchemeProps> = ({ colors }) => {
-  console.log("Colors in color scheme", colors);
   return (
     <>
       {colors ? (
         colors.map((color: any, i: number) => {
+          const generateRGBA = (gradientObj: any, opacity: string) => {
+            const obj = gradientObj.rgb
+            return `rgba(${obj.r}, ${obj.g}, ${obj.b}, ${opacity})`
+          }
+          const color1 = generateRGBA(color.baseColor, '1')
+          const color2 = generateRGBA(color.color2, '1')
+          const color3 = generateRGBA(color.color3, '1')
+
           return (
-            <div key={i}>
-              <ColorButton $rgbColor={color.rgb.value}>
-                {color.name.value}
-              </ColorButton>
+            <div key={i} className="m-3">
+              <ColorButton $rgbColor={color1} $rgbGradient1={color2} $rgbGradient2={color3}></ColorButton>
             </div>
           );
         })
@@ -43,4 +50,3 @@ export const ColorScheme: React.FC<ColorSchemeProps> = ({ colors }) => {
     </>
   );
 };
-

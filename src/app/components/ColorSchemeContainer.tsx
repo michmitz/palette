@@ -5,36 +5,60 @@ import { ColorScheme } from "./ColorScheme";
 
 export const ColorSchemeContainer: React.FC = () => {
   const [colorInput, setColorInput] = React.useState<string>("");
-  const [colorData, setColorData] = React.useState<any>([]);
+  const [colorData, setColorData] = React.useState<any>(null);
+  const [gradientData, setGradientData] = React.useState<any>([]);
+
+  const getData = async (
+    hexColor: string,
+    count: number,
+    mode: string,
+    setData: (v: any) => void
+  ) => {
+    const res = await fetch(
+      `https://www.thecolorapi.com/scheme?hex=${hexColor}&count=${count}&mode=${mode}`
+    );
+
+    if (res.status !== 200) {
+      throw new Error("Failed to fetch colors");
+    }
+    const data = await res.json();
+
+    setData(data);
+  };
 
   React.useEffect(() => {
-    const getData = async () => {
-      const res = await fetch(
-        `https://www.thecolorapi.com/scheme?hex=${colorInput.substring(1)}&count=10`
-      );
-
-      if (res.status !== 200) {
-        throw new Error("Failed to fetch colors");
-      }
-      const data = await res.json();
-      //  return data
-      setColorData(data);
-    };
-
     if (colorInput) {
-      getData();
+      getData(colorInput.substring(1), 5, "analogic-complement", (v) =>
+        setColorData(v)
+      );
     }
+    console.log("color input", colorInput);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [colorInput]);
+
+  React.useEffect(() => {
+    if (colorData !== null) {
+      colorData.colors.forEach((color: any) => {
+        getData(color.hex.clean, 4, "triad", (v) =>
+          setGradientData((prevData: any) => [
+            ...prevData,
+            { baseColor: color, color2: v.colors[1], color3: v.colors[3] },
+          ])
+        );
+      });
+    }
+  }, [colorData]);
+
+  const handleSetColorInput = (v: string) => {
+    setGradientData([]);
+    setColorInput(v);
+  };
 
   return (
     <>
       <p className="font-comfortaa">Choose a color</p>
-      <ColorPicker onChange={setColorInput} colorInput={colorInput} />
-      {colorData.colors ? (
-        <ColorScheme colors={colorData.colors} />
-      ) : (
-        <>Loading</>
-      )}
+      <ColorPicker onChange={handleSetColorInput} colorInput={colorInput} />
+      {gradientData ? <ColorScheme colors={gradientData} /> : <>Loading</>}
     </>
   );
 };
