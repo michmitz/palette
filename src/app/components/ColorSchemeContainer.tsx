@@ -56,7 +56,7 @@ export const ColorSchemeContainer: React.FC = () => {
 
   return (
     <>
-      <p className="font-comfortaa">Choose a color</p>
+      <p className="font-comfortaa text-2xl">Choose a color</p>
       <ColorPicker onChange={handleSetColorInput} colorInput={colorInput} />
       {gradientData ? <ColorScheme colors={gradientData} /> : <>Loading</>}
     </>

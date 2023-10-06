@@ -1,4 +1,3 @@
-
 import React from "react";
 import { styled } from "styled-components";
 
@@ -6,7 +5,11 @@ interface ColorSchemeProps {
   readonly colors?: any;
 }
 
-const ColorButton = styled.button<{ $rgbColor: any; $rgbGradient1: any; $rgbGradient2: any }>`
+const ColorButton = styled.button<{
+  $rgbColor: any;
+  $rgbGradient1: any;
+  $rgbGradient2: any;
+}>`
   border-radius: 15px;
   display: inline-block;
   transition: all 200ms ease-in-out;
@@ -15,7 +18,7 @@ const ColorButton = styled.button<{ $rgbColor: any; $rgbGradient1: any; $rgbGrad
   color: white;
   border: 2px solid white;
   font-family: Comfortaa;
-  box-shadow: 5px 5px 10px rgba(31, 38, 135, 0.37);
+  box-shadow: 2px 2px 1px rgba(31, 38, 135, 0.1);
   cursor: pointer;
   background: linear-gradient(
     60deg,
@@ -25,22 +28,41 @@ const ColorButton = styled.button<{ $rgbColor: any; $rgbGradient1: any; $rgbGrad
   );
 `;
 
+const SingleColor = styled.div<{ $color: any }>`
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  transition: all 200ms ease-in-out;
+  box-shadow: 2px 2px 1px rgba(31, 38, 135, 0.1);
+  background: ${(props) => props.$color};
+  margin: 3px;
+`;
+
 export const ColorScheme: React.FC<ColorSchemeProps> = ({ colors }) => {
   return (
     <>
       {colors ? (
         colors.map((color: any, i: number) => {
           const generateRGBA = (gradientObj: any, opacity: string) => {
-            const obj = gradientObj.rgb
-            return `rgba(${obj.r}, ${obj.g}, ${obj.b}, ${opacity})`
-          }
-          const color1 = generateRGBA(color.baseColor, '1')
-          const color2 = generateRGBA(color.color2, '1')
-          const color3 = generateRGBA(color.color3, '1')
+            const obj = gradientObj.rgb;
+            return `rgba(${obj.r}, ${obj.g}, ${obj.b}, ${opacity})`;
+          };
+          const color1 = generateRGBA(color.baseColor, "1");
+          const color2 = generateRGBA(color.color2, "1");
+          const color3 = generateRGBA(color.color3, "1");
 
           return (
             <div key={i} className="m-3">
-              <ColorButton $rgbColor={color1} $rgbGradient1={color2} $rgbGradient2={color3}></ColorButton>
+              <div className="flex mb-2">
+                <SingleColor $color={color1} />
+                <SingleColor $color={color2} />
+                <SingleColor $color={color3} />
+              </div>
+              <ColorButton
+                $rgbColor={color1}
+                $rgbGradient1={color2}
+                $rgbGradient2={color3}
+              ></ColorButton>
             </div>
           );
         })
