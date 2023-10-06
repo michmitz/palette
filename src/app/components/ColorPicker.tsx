@@ -41,7 +41,7 @@ const ColorPickerInput = styled.input`
 
 export const ColorPicker: React.FC<ColorPickerProps> = ({ colorInput, onChange }) => {
   return (
-    <div>
+    <div className="flex">
       <ColorPickerInput type="color" onChange={e => onChange(e.target.value)} value={`${colorInput || '#FFFFFF'}`} /> 
     </div>
   )
