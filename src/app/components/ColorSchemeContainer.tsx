@@ -2,11 +2,15 @@
 import React from "react";
 import { ColorPicker } from "./ColorPicker";
 import { ColorScheme } from "./ColorScheme";
+import styled from "styled-components";
+
+export type ColorFormat = "hex" | "rgb";
 
 export const ColorSchemeContainer: React.FC = () => {
   const [colorInput, setColorInput] = React.useState<string>("");
   const [colorData, setColorData] = React.useState<any>(null);
   const [gradientData, setGradientData] = React.useState<any>([]);
+  const [format, setFormat] = React.useState<ColorFormat>("rgb");
 
   const getData = async (
     hexColor: string,
@@ -54,15 +58,34 @@ export const ColorSchemeContainer: React.FC = () => {
     setColorInput(v);
   };
 
+  const handleSetFormat = (v: ColorFormat) => {
+    setFormat(v);
+  };
+
+  const FormatButton = styled.button<{ $selected: boolean }>`
+  color: ${(props) => props.$selected ? "purple" : "black"};
+  margin: 3px;
+`;
+
   return (
     <div>
-
-      <div className="flex bg-white rounded-2xl shadow-2xl">
+      <div className="flex bg-white rounded-2xl shadow-2xl mb-10">
         <p className="font-comfortaa text-xl font-bold">CHOOSE A COLOR</p>
         <ColorPicker onChange={handleSetColorInput} colorInput={colorInput} />
+
+        <div>
+          <FormatButton onClick={() => handleSetFormat("hex")} className="cursor-pointer font-bold" $selected={format === 'hex'}>Hex</FormatButton>{" "}
+          <FormatButton onClick={() => handleSetFormat("rgb")} className="cursor-pointer font-bold" $selected={format === 'rgb'}>RGB</FormatButton>
+        </div>
       </div>
 
-      {gradientData.length ? <ColorScheme colors={gradientData} /> : colorInput ? <>Loading</> : <></>}
+      {gradientData.length ? (
+        <ColorScheme colors={gradientData} format={format} />
+      ) : colorInput ? (
+        <>Loading</>
+      ) : (
+        <></>
+      )}
     </div>
   );
 };
