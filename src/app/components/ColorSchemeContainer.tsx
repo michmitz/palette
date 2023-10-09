@@ -28,7 +28,7 @@ export const ColorSchemeContainer: React.FC = () => {
 
   React.useEffect(() => {
     if (colorInput) {
-      getData(colorInput.substring(1), 5, "analogic-complement", (v) =>
+      getData(colorInput.substring(1), 10, "analogic-complement", (v) =>
         setColorData(v)
       );
     }
@@ -39,7 +39,7 @@ export const ColorSchemeContainer: React.FC = () => {
   React.useEffect(() => {
     if (colorData !== null) {
       colorData.colors.forEach((color: any) => {
-        getData(color.hex.clean, 4, "triad", (v) =>
+        getData(color.hex.clean, 4, "analogic", (v) =>
           setGradientData((prevData: any) => [
             ...prevData,
             { baseColor: color, color2: v.colors[1], color3: v.colors[3] },
@@ -55,10 +55,14 @@ export const ColorSchemeContainer: React.FC = () => {
   };
 
   return (
-    <>
-      <p className="font-comfortaa">Choose a color</p>
-      <ColorPicker onChange={handleSetColorInput} colorInput={colorInput} />
-      {gradientData ? <ColorScheme colors={gradientData} /> : <>Loading</>}
-    </>
+    <div>
+
+      <div className="flex bg-white rounded-2xl shadow-2xl">
+        <p className="font-comfortaa text-xl font-bold">CHOOSE A COLOR</p>
+        <ColorPicker onChange={handleSetColorInput} colorInput={colorInput} />
+      </div>
+
+      {gradientData.length ? <ColorScheme colors={gradientData} /> : colorInput ? <>Loading</> : <></>}
+    </div>
   );
 };

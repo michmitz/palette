@@ -16,16 +16,17 @@ const ColorPickerInput = styled.input`
   padding: 0;
   width: 6em;
   transition: all 200ms ease-in-out;
-  box-shadow: 2px 2px 10px gray;
   border-radius: 50%;
 
   &::-webkit-color-swatch-wrapper {
+    border: 0;
     border-radius: 50%;
   }
   
   &::-webkit-color-swatch{
     border: 0;
     border-radius: 50%;
+    box-shadow: 5px 5px 1px rgba(31, 38, 135, 0.1);
   }
   
   &::-moz-color-swatch,
@@ -40,7 +41,7 @@ const ColorPickerInput = styled.input`
 
 export const ColorPicker: React.FC<ColorPickerProps> = ({ colorInput, onChange }) => {
   return (
-    <div>
+    <div className="flex">
       <ColorPickerInput type="color" onChange={e => onChange(e.target.value)} value={`${colorInput || '#FFFFFF'}`} /> 
     </div>
   )
