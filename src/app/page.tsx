@@ -3,8 +3,8 @@ import { ColorSchemeContainer } from "./components/ColorSchemeContainer";
 
 export default function Home() {
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24 bg-white">
-      <div className="mb-32 grid text-center lg:mb-0 lg:grid-cols-4">
+    <main className="flex min-h-screen flex-col items-center justify-between bg-red-300 p-20">
+      <div className="bg-orange-50 rounded-2xl p-12 shadow-2xl">
         <ColorSchemeContainer />
       </div>
     </main>

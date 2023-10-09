@@ -13,10 +13,9 @@ const ColorButton = styled.button<{
   border-radius: 15px;
   display: inline-block;
   transition: all 200ms ease-in-out;
-  width: 14rem;
-  height: 8rem;
+  width: 10rem;
+  height: 10rem;
   color: white;
-  border: 2px solid white;
   font-family: Comfortaa;
   box-shadow: 2px 2px 1px rgba(31, 38, 135, 0.1);
   cursor: pointer;
@@ -40,7 +39,7 @@ const SingleColor = styled.div<{ $color: any }>`
 
 export const ColorScheme: React.FC<ColorSchemeProps> = ({ colors }) => {
   return (
-    <>
+    <div className="grid lg:grid-cols-4 sm:grid-cols-3">
       {colors ? (
         colors.map((color: any, i: number) => {
           const generateRGBA = (gradientObj: any, opacity: string) => {
@@ -52,7 +51,7 @@ export const ColorScheme: React.FC<ColorSchemeProps> = ({ colors }) => {
           const color3 = generateRGBA(color.color3, "1");
 
           return (
-            <div key={i} className="m-3">
+            <div key={i} className="m-3 flex flex-col">
               <div className="flex mb-2">
                 <SingleColor $color={color1} />
                 <SingleColor $color={color2} />
@@ -69,6 +68,6 @@ export const ColorScheme: React.FC<ColorSchemeProps> = ({ colors }) => {
       ) : (
         <>Loading</>
       )}
-    </>
+    </div>
   );
 };
