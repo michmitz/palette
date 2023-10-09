@@ -30,8 +30,8 @@ const ColorButton = styled.button<{
 `;
 
 const SingleColor = styled.div<{ $color: any }>`
-  width: 30px;
-  height: 30px;
+  width: 2.5em;
+  height: 2.5em;
   border-radius: 50%;
   transition: all 200ms ease-in-out;
   box-shadow: 2px 2px 1px rgba(31, 38, 135, 0.1);
@@ -39,9 +39,12 @@ const SingleColor = styled.div<{ $color: any }>`
   margin: 3px;
 `;
 
-const generateRGBA = (gradientObj: any, opacity: string) => {
-  const obj = gradientObj.rgb;
-  return `rgba(${obj.r}, ${obj.g}, ${obj.b}, ${opacity})`;
+const generateColor = (gradientObj: any, opacity: string, format: ColorFormat) => {
+  const rgb = gradientObj.rgb;
+  if (format === 'rgb') {
+  return `rgba(${rgb.r}, ${rgb.g}, ${rgb.b}, ${opacity})`; }
+
+  return gradientObj.hex.value;
 };
 
 export const ColorScheme: React.FC<ColorSchemeProps> = ({ colors, format }) => {
@@ -49,9 +52,9 @@ export const ColorScheme: React.FC<ColorSchemeProps> = ({ colors, format }) => {
     <div className="grid lg:grid-cols-4 sm:grid-cols-2">
       {colors ? (
         colors.map((color: any, i: number) => {
-          const color1 = generateRGBA(color.baseColor, "1");
-          const color2 = generateRGBA(color.color2, "1");
-          const color3 = generateRGBA(color.color3, "1");
+          const color1 = generateColor(color.baseColor, "1", format);
+          const color2 = generateColor(color.color2, "1", format);
+          const color3 = generateColor(color.color3, "1", format);
 
           return (
             <div key={i} className="m-3 flex flex-col">

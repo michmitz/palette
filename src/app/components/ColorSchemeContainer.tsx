@@ -63,9 +63,9 @@ export const ColorSchemeContainer: React.FC = () => {
   };
 
   const FormatButton = styled.button<{ $selected: boolean }>`
-  color: ${(props) => props.$selected ? "purple" : "black"};
-  margin: 3px;
-`;
+    color: ${(props) => (props.$selected ? "purple" : "black")};
+    margin: 3px;
+  `;
 
   return (
     <div>
@@ -74,8 +74,20 @@ export const ColorSchemeContainer: React.FC = () => {
         <ColorPicker onChange={handleSetColorInput} colorInput={colorInput} />
 
         <div>
-          <FormatButton onClick={() => handleSetFormat("hex")} className="cursor-pointer font-bold" $selected={format === 'hex'}>Hex</FormatButton>{" "}
-          <FormatButton onClick={() => handleSetFormat("rgb")} className="cursor-pointer font-bold" $selected={format === 'rgb'}>RGB</FormatButton>
+          <FormatButton
+            onClick={() => handleSetFormat("hex")}
+            className="cursor-pointer font-bold"
+            $selected={format === "hex"}
+          >
+            HEX
+          </FormatButton>{" "}
+          <FormatButton
+            onClick={() => handleSetFormat("rgb")}
+            className="cursor-pointer font-bold"
+            $selected={format === "rgb"}
+          >
+            RGB
+          </FormatButton>
         </div>
       </div>
 
