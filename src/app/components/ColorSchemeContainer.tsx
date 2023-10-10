@@ -4,7 +4,7 @@ import { ColorPicker } from "./ColorPicker";
 import { ColorScheme } from "./ColorScheme";
 import styled from "styled-components";
 
-export type ColorFormat = "hex" | "rgb";
+export type ColorFormat = "hex" | "rgb" | "hsl";
 
 export const ColorSchemeContainer: React.FC = () => {
   const [colorInput, setColorInput] = React.useState<string>("");
@@ -36,7 +36,6 @@ export const ColorSchemeContainer: React.FC = () => {
         setColorData(v)
       );
     }
-    console.log("color input", colorInput);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [colorInput]);
 
@@ -87,6 +86,13 @@ export const ColorSchemeContainer: React.FC = () => {
             $selected={format === "rgb"}
           >
             RGB
+          </FormatButton>
+          <FormatButton
+            onClick={() => handleSetFormat("hsl")}
+            className="cursor-pointer font-bold"
+            $selected={format === "hsl"}
+          >
+            HSL
           </FormatButton>
         </div>
       </div>

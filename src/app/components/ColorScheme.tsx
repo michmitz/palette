@@ -44,6 +44,10 @@ const generateColor = (gradientObj: any, opacity: string, format: ColorFormat) =
   if (format === 'rgb') {
   return `rgba(${rgb.r}, ${rgb.g}, ${rgb.b}, ${opacity})`; }
 
+  if (format === 'hsl') {
+    return gradientObj.hsl.value;
+  }
+
   return gradientObj.hex.value;
 };
 
