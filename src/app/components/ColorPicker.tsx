@@ -20,22 +20,22 @@ const ColorPickerInput = styled.input`
 
   &::-webkit-color-swatch-wrapper {
     border: 0;
-    border-radius: 50%;
+    border-radius: 20%;
   }
   
   &::-webkit-color-swatch{
     border: 0;
-    border-radius: 50%;
+    border-radius: 20%;
     box-shadow: 5px 5px 1px rgba(31, 38, 135, 0.1);
   }
   
   &::-moz-color-swatch,
   ::-moz-focus-inner{
-    border-radius: 50%;
+    border-radius: 20%;
   }
   
   &::-moz-focus-inner{
-    border-radius: 50%;
+    border-radius: 20%;
   }
 `;
 

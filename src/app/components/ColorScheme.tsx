@@ -1,8 +1,10 @@
 import React from "react";
 import { styled } from "styled-components";
+import { ColorFormat } from "./ColorSchemeContainer";
 
 interface ColorSchemeProps {
   readonly colors?: any;
+  readonly format: ColorFormat;
 }
 
 const ColorButton = styled.button<{
@@ -13,14 +15,14 @@ const ColorButton = styled.button<{
   border-radius: 15px;
   display: inline-block;
   transition: all 200ms ease-in-out;
-  width: 10rem;
-  height: 10rem;
+  width: 13rem;
+  height: 13rem;
   color: white;
   font-family: Comfortaa;
   box-shadow: 2px 2px 1px rgba(31, 38, 135, 0.1);
   cursor: pointer;
   background: linear-gradient(
-    60deg,
+    70deg,
     ${(props) => props.$rgbColor},
     ${(props) => props.$rgbGradient1},
     ${(props) => props.$rgbGradient2}
@@ -28,8 +30,8 @@ const ColorButton = styled.button<{
 `;
 
 const SingleColor = styled.div<{ $color: any }>`
-  width: 30px;
-  height: 30px;
+  width: 2.5em;
+  height: 2.5em;
   border-radius: 50%;
   transition: all 200ms ease-in-out;
   box-shadow: 2px 2px 1px rgba(31, 38, 135, 0.1);
@@ -37,18 +39,26 @@ const SingleColor = styled.div<{ $color: any }>`
   margin: 3px;
 `;
 
-export const ColorScheme: React.FC<ColorSchemeProps> = ({ colors }) => {
+const generateColor = (gradientObj: any, opacity: string, format: ColorFormat) => {
+  const rgb = gradientObj.rgb;
+  if (format === 'rgb') {
+  return `rgba(${rgb.r}, ${rgb.g}, ${rgb.b}, ${opacity})`; }
+
+  if (format === 'hsl') {
+    return gradientObj.hsl.value;
+  }
+
+  return gradientObj.hex.value;
+};
+
+export const ColorScheme: React.FC<ColorSchemeProps> = ({ colors, format }) => {
   return (
-    <div className="grid lg:grid-cols-4 sm:grid-cols-3">
+    <div className="grid lg:grid-cols-4 sm:grid-cols-2">
       {colors ? (
         colors.map((color: any, i: number) => {
-          const generateRGBA = (gradientObj: any, opacity: string) => {
-            const obj = gradientObj.rgb;
-            return `rgba(${obj.r}, ${obj.g}, ${obj.b}, ${opacity})`;
-          };
-          const color1 = generateRGBA(color.baseColor, "1");
-          const color2 = generateRGBA(color.color2, "1");
-          const color3 = generateRGBA(color.color3, "1");
+          const color1 = generateColor(color.baseColor, "1", format);
+          const color2 = generateColor(color.color2, "1", format);
+          const color3 = generateColor(color.color3, "1", format);
 
           return (
             <div key={i} className="m-3 flex flex-col">
