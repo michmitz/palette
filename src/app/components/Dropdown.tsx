@@ -1,9 +1,10 @@
 import React, { useEffect, useRef, useState } from "react";
 import { CaretDownOutlined } from "@ant-design/icons";
+import { SchemeType } from "./ColorSchemeContainer";
 
 export interface DropdownProps {
-  readonly defaultValue: any;
-  readonly dropdownValues: ReadonlyArray<any>;
+  readonly defaultValue: SchemeType;
+  readonly dropdownValues: ReadonlyArray<SchemeType>;
   readonly onChange?: (value: any) => void;
 }
 

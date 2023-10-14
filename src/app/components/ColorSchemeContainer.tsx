@@ -3,14 +3,20 @@ import React from "react";
 import { ColorPicker } from "./ColorPicker";
 import { ColorScheme } from "./ColorScheme";
 import styled from "styled-components";
+import { Dropdown } from "./Dropdown";
 
 export type ColorFormat = "hex" | "rgb" | "hsl";
+export const schemeTypes = ["monochrome", "analogic", "analogic-complement", "monochrome-light", "complement", "triad", "quad"] as const;
+export type SchemeType = typeof schemeTypes[number];
 
 export const ColorSchemeContainer: React.FC = () => {
   const [colorInput, setColorInput] = React.useState<string>("");
   const [colorData, setColorData] = React.useState<any>(null);
   const [gradientData, setGradientData] = React.useState<any>([]);
   const [format, setFormat] = React.useState<ColorFormat>("rgb");
+  const [dropdownValue, setDropdownValue] = React.useState<SchemeType | null>(
+    null
+  );
 
   const getData = async (
     hexColor: string,
@@ -32,12 +38,22 @@ export const ColorSchemeContainer: React.FC = () => {
 
   React.useEffect(() => {
     if (colorInput) {
-      getData(colorInput.substring(1), 10, "analogic-complement", (v) =>
+      getData(
+        colorInput.substring(1),
+        10,
+        dropdownValue || "analogic-complement",
+        (v) => setColorData(v)
+      );
+    }
+
+    if (dropdownValue && colorInput) {
+      setColorData(null);
+      getData(colorInput.substring(1), 10, dropdownValue, (v) =>
         setColorData(v)
       );
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [colorInput]);
+  }, [colorInput, dropdownValue]);
 
   React.useEffect(() => {
     if (colorData !== null) {
@@ -61,6 +77,11 @@ export const ColorSchemeContainer: React.FC = () => {
     setFormat(v);
   };
 
+  const handleSetDropdownValue = (v: SchemeType) => {
+    setColorData(null);
+    setDropdownValue(v);
+  };
+
   const FormatButton = styled.button<{ $selected: boolean }>`
     color: ${(props) => (props.$selected ? "purple" : "black")};
     margin: 3px;
@@ -71,6 +92,12 @@ export const ColorSchemeContainer: React.FC = () => {
       <div className="flex bg-white rounded-2xl shadow-2xl mb-10">
         <p className="font-comfortaa text-xl font-bold">CHOOSE A COLOR</p>
         <ColorPicker onChange={handleSetColorInput} colorInput={colorInput} />
+
+        <Dropdown
+          defaultValue={dropdownValue || "analogic"}
+          dropdownValues={schemeTypes}
+          onChange={handleSetDropdownValue}
+        />
 
         <div>
           <FormatButton
