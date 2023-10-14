@@ -106,7 +106,7 @@ export const ColorSchemeContainer: React.FC = () => {
         <ColorPicker onChange={handleSetColorInput} colorInput={colorInput} />
 
         <Dropdown
-          defaultValue={dropdownValue || "analogic"}
+          value={dropdownValue || "analogic"}
           dropdownValues={schemeTypes}
           onChange={handleSetDropdownValue}
         />

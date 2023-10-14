@@ -4,7 +4,7 @@ import { SchemeType } from "./ColorSchemeContainer";
 import styled from "styled-components";
 
 export interface DropdownProps {
-  readonly defaultValue: SchemeType;
+  readonly value: SchemeType;
   readonly dropdownValues: ReadonlyArray<SchemeType>;
   readonly onChange?: (value: any) => void;
 }
@@ -29,6 +29,7 @@ const DropdownHeader = styled.div`
   justify-content: space-between;
   align-items: center;
   background: linear-gradient(to top, #c1dfc4 0%, #deecdd 100%);
+  width: fit-content;
 `;
 
 const StyledUl = styled.ul`
@@ -53,7 +54,7 @@ const StyledLi = styled.li`
 `;
 
 export const Dropdown: React.FC<DropdownProps> = ({
-  defaultValue,
+  value,
   dropdownValues,
   onChange,
 }) => {
@@ -74,17 +75,19 @@ export const Dropdown: React.FC<DropdownProps> = ({
     };
   }, [showMenu]);
 
+  const filteredValues = dropdownValues.filter(v => v !== value)
+
   return (
     <OuterContainer>
       <span className="font-bold">Scheme Type:</span>
       <div className="w-24">
         <DropdownHeader onClick={() => setShowMenu(true)}>
-          {defaultValue}
+          {value}
           <CaretDownOutlined />
         </DropdownHeader>
         {showMenu && (
           <StyledUl ref={ref}>
-            {dropdownValues.map((value) => {
+            {filteredValues.map((value) => {
               return (
                 <StyledLi
                   value={value}
