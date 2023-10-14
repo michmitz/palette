@@ -6,8 +6,16 @@ import styled from "styled-components";
 import { Dropdown } from "./Dropdown";
 
 export type ColorFormat = "hex" | "rgb" | "hsl";
-export const schemeTypes = ["monochrome", "analogic", "analogic-complement", "monochrome-light", "complement", "triad", "quad"] as const;
-export type SchemeType = typeof schemeTypes[number];
+export const schemeTypes = [
+  "monochrome",
+  "analogic",
+  "analogic-complement",
+  "monochrome-light",
+  "complement",
+  "triad",
+  "quad",
+] as const;
+export type SchemeType = (typeof schemeTypes)[number];
 
 export const ColorSchemeContainer: React.FC = () => {
   const [colorInput, setColorInput] = React.useState<string>("");
@@ -38,6 +46,7 @@ export const ColorSchemeContainer: React.FC = () => {
 
   React.useEffect(() => {
     if (colorInput) {
+      setColorData(null);
       getData(
         colorInput.substring(1),
         10,
@@ -45,15 +54,17 @@ export const ColorSchemeContainer: React.FC = () => {
         (v) => setColorData(v)
       );
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [colorInput]);
 
+  React.useEffect(() => {
     if (dropdownValue && colorInput) {
-      setColorData(null);
       getData(colorInput.substring(1), 10, dropdownValue, (v) =>
         setColorData(v)
       );
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [colorInput, dropdownValue]);
+  }, [dropdownValue]);
 
   React.useEffect(() => {
     if (colorData !== null) {
@@ -79,6 +90,7 @@ export const ColorSchemeContainer: React.FC = () => {
 
   const handleSetDropdownValue = (v: SchemeType) => {
     setColorData(null);
+    setGradientData([]);
     setDropdownValue(v);
   };
 
