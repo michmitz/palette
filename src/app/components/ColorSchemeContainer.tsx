@@ -6,6 +6,7 @@ import styled from "styled-components";
 import { Dropdown } from "./Dropdown";
 
 export type ColorFormat = "hex" | "rgb" | "hsl";
+export type SelectedAPI = "chroma" | "colors-api";
 export const schemeTypes = [
   "monochrome",
   "analogic",
@@ -22,6 +23,7 @@ export const ColorSchemeContainer: React.FC = () => {
   const [colorData, setColorData] = React.useState<any>(null);
   const [gradientData, setGradientData] = React.useState<any>([]);
   const [format, setFormat] = React.useState<ColorFormat>("rgb");
+  const [apiType, setAPIType] = React.useState<SelectedAPI>("chroma");
   const [dropdownValue, setDropdownValue] = React.useState<SchemeType | null>(
     null
   );
@@ -88,6 +90,10 @@ export const ColorSchemeContainer: React.FC = () => {
     setFormat(v);
   };
 
+  const handleSetAPIType = (v: SelectedAPI) => {
+    setAPIType(v);
+  };
+
   const handleSetDropdownValue = (v: SchemeType) => {
     setColorData(null);
     setGradientData([]);
@@ -104,35 +110,57 @@ export const ColorSchemeContainer: React.FC = () => {
       <div className="flex bg-white rounded-2xl shadow-2xl mb-10">
         <p className="font-comfortaa text-xl font-bold">CHOOSE A COLOR</p>
         <ColorPicker onChange={handleSetColorInput} colorInput={colorInput} />
-
-        <Dropdown
-          value={dropdownValue || "analogic"}
-          dropdownValues={schemeTypes}
-          onChange={handleSetDropdownValue}
-        />
+        {/* <ColorPicker onChange={handleSetChromaColorInput} colorInput={chromaColorInput} /> */}
 
         <div>
-          <FormatButton
-            onClick={() => handleSetFormat("hex")}
-            className="cursor-pointer font-bold"
-            $selected={format === "hex"}
-          >
-            HEX
-          </FormatButton>{" "}
-          <FormatButton
-            onClick={() => handleSetFormat("rgb")}
-            className="cursor-pointer font-bold"
-            $selected={format === "rgb"}
-          >
-            RGB
-          </FormatButton>
-          <FormatButton
-            onClick={() => handleSetFormat("hsl")}
-            className="cursor-pointer font-bold"
-            $selected={format === "hsl"}
-          >
-            HSL
-          </FormatButton>
+          <Dropdown
+            value={dropdownValue || "analogic"}
+            dropdownValues={schemeTypes}
+            onChange={handleSetDropdownValue}
+          />
+
+          <div>
+            Color Format:
+            <FormatButton
+              onClick={() => handleSetFormat("hex")}
+              className="cursor-pointer font-bold"
+              $selected={format === "hex"}
+            >
+              HEX
+            </FormatButton>{" "}
+            <FormatButton
+              onClick={() => handleSetFormat("rgb")}
+              className="cursor-pointer font-bold"
+              $selected={format === "rgb"}
+            >
+              RGB
+            </FormatButton>
+            <FormatButton
+              onClick={() => handleSetFormat("hsl")}
+              className="cursor-pointer font-bold"
+              $selected={format === "hsl"}
+            >
+              HSL
+            </FormatButton>
+          </div>
+
+          <div className="">
+            API Type:
+            <FormatButton
+              onClick={() => handleSetAPIType("chroma")}
+              className="cursor-pointer font-bold"
+              $selected={apiType === "chroma"}
+            >
+              Chroma.js (recommended)
+            </FormatButton>
+            <FormatButton
+              onClick={() => handleSetAPIType("colors-api")}
+              className="cursor-pointer font-bold"
+              $selected={apiType === "colors-api"}
+            >
+              Colors API
+            </FormatButton>
+          </div>
         </div>
       </div>
 
